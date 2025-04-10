@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Obratus</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: var(--primary);
+        }
+        .sidebar {
+            background-color: var(--primary);
+            color: white;
+            min-height: calc(100vh - 56px);
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.8rem 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.2rem;
+        }
+        .sidebar .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: var(--secondary);
+        }
+        .sidebar .nav-link i {
+            margin-right: 0.5rem;
+        }
+        .btn-primary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        .btn-primary:hover {
+            background-color: #e67e22;
+            border-color: #e67e22;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .card-obra {
+            height: 100%;
+        }
+        .obra-status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .status-planejamento {
+            background-color: #e0f7fa;
+            color: #006064;
+        }
+        .status-andamento {
+            background-color: #fff8e1;
+            color: #ff6f00;
+        }
+        .status-concluida {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .obra-progress {
+            height: 8px;
+            margin-top: 0.5rem;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="dashboard.html">OBRATUS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link active" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="obras.html">Minhas Obras</a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="solicitacoes.html">Solicitações</a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="mensagens.html">Mensagens</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" id="notificacoesDropdown" role="button" data-bs-toggle="dropdown">
+                            <div class="position-relative d-inline-block">
+                                <i class="fas fa-bell"></i>
+                                <span class="notification-badge">3</span>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificacoesDropdown">
+                            <li><h6 class="dropdown-header">Notificações</h6></li>
+                            <li><a class="dropdown-item" href="#">Novo orçamento recebido</a></li>
+                            <li><a class="dropdown-item" href="#">Material entregue</a></li>
+                            <li><a class="dropdown-item" href="#">Nova mensagem</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-center" href="#">Ver todas</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <div class="user-avatar">JD</div>
+                            <span class="d-none d-lg-inline">João da Silva</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Meu Perfil</a></li>
+                            <li><a class="dropdown-item" href="configuracoes.html"><i class="fas fa-cog me-2"></i>Configurações</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="index.html"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 d-none d-lg-block sidebar p-3">
+                <h5 class="mb-3 ps-2">Menu</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="obras.html">
+                            <i class="fas fa-home"></i> Minhas Obras
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="solicitacoes.html">
+                            <i class="fas fa-clipboard-list"></i> Solicitações
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mensagens.html">
+                            <i class="fas fa-comments"></i> Mensagens
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profissionais.html">
+                            <i class="fas fa-hard-hat"></i> Profissionais
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="fornecedores.html">
+                            <i class="fas fa-store"></i> Fornecedores
+                        </a>
+                    </li>
+                </ul>
+                <hr>
+                <h5 class="mb-3 ps-2">Suporte</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="ajuda.html">
+                            <i class="fas fa-question-circle"></i> Ajuda
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contato.html">
+                            <i class="fas fa-envelope"></i> Contato
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Dashboard</h2>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novaObraModal">
+                        <i class="fas fa-plus me-2"></i>Criar Nova Obra
+                    </button>
+                </div>
+
+                <!-- Resumo -->
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Obras Ativas</h6>
+                                <div class="d-flex align-items-center">
+                                    <h3 class="card-title mb-0">2</h3>
+                                    <i class="fas fa-home ms-auto" style="font-size: 2rem; color: var(--secondary);"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Solicitações Pendentes</h6>
+                                <div class="d-flex align-items-center">
+                                    <h3 class="card-title mb-0">3</h3>
+                                    <i class="fas fa-clipboard-list ms-auto" style="font-size: 2rem; color: var(--secondary);"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Orçamentos Recebidos</h6>
+                                <div class="d-flex align-items-center">
+                                    <h3 class="card-title mb-0">5</h3>
+                                    <i class="fas fa-file-invoice-dollar ms-auto" style="font-size: 2rem; color: var(--secondary);"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Mensagens Não Lidas</h6>
+                                <div class="d-flex align-items-center">
+                                    <h3 class="card-title mb-0">7</h3>
+                                    <i class="fas fa-comments ms-auto" style="font-size: 2rem; color: var(--secondary);"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Obras Recentes -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4>Obras Recentes</h4>
+                        <a href="obras.html" class="text-decoration-none">Ver todas</a>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card card-obra">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="card-title">Reforma do Banheiro</h5>
+                                        <span class="obra-status status-andamento">Em Andamento</span>
+                                    </div>
+                                    <p class="card-text">Reforma completa do banheiro principal, incluindo troca de piso, revestimento e instalação de novo box.</p>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <small class="text-muted">Início: 15/05/2025</small>
+                                        <small class="text-muted">Término previsto: 30/06/2025</small>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <small><i class="fas fa-map-marker-alt me-1"></i> Rua das Flores, 123, Apto 301</small>
+                                    </div>
+                                    <div class="progress obra-progress">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <div>
+                                            <span class="badge bg-primary me-1">2 Profissionais</span>
+                                            <span class="badge bg-success">1 Material</span>
+                                        </div>
+                                        <a href="obra-detalhes.html?id=1" class="btn btn-sm btn-outline-primary">Ver Detalhes</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card card-obra">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="card-title">Pintura da Sala</h5>
+                                        <span class="obra-status status-planejamento">Em Planejamento</span>
+                                    </div>
+                                    <p class="card-text">Pintura completa da sala de estar, incluindo paredes, teto e rodapés.</p>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <small class="text-muted">Início previsto: 10/07/2025</small>
+                                        <small class="text-muted">Término previsto: 20/07/2025</small>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <small><i class="fas fa-map-marker-alt me-1"></i> Rua das Flores, 123, Apto 301</small>
+                                    </div>
+                                    <div class="progress obra-progress">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <div>
+                                            <span class="badge bg-primary me-1">0 Profissionais</span>
+                                            <span class="badge bg-success">0 Materiais</span>
+                                        </div>
+                                        <a href="obra-detalhes.html?id=2" class="btn btn-sm btn-outline-primary">Ver Detalhes</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Atividades Recentes -->
+                <div class="mb-4">
+                    <h4 class="mb-3">Atividades Recentes</h4>
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item px-0">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="fas fa-file-invoice-dollar me-2 text-primary"></i>
+                                            <strong>Novo orçamento recebido</strong> para <a href="#">Materiais para revestimento de banheiro</a>
+                                        </div>
+                                        <small class="text-muted">Hoje, 14:30</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="fas fa-comment-alt me-2 text-primary"></i>
+                                            <strong>Nova mensagem</strong> no canal <a href="#">Reforma do Banheiro</a>
+                                        </div>
+                                        <small class="text-muted">Hoje, 11:15</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="fas fa-clipboard-check me-2 text-primary"></i>
+                                            <strong>Solicitação criada:</strong> <a href="#">Instalação de revestimentos em banheiro</a>
+                                        </div>
+                                        <small class="text-muted">Ontem, 16:45</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="fas fa-home me-2 text-primary"></i>
+                                            <strong>Obra criada:</strong> <a href="#">Reforma do Banheiro</a>
+                                        </div>
+                                        <small class="text-muted">Ontem, 15:30</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="fas fa-user-check me-2 text-primary"></i>
+                                            <strong>Conta verificada</strong> - Bem-vindo ao Obratus!
+                                        </div>
+                                        <small class="text-muted">Ontem, 14:20</small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nova Obra -->
+    <div class="modal fade" id="novaObraModal" tabindex="-1" aria-labelledby="novaObraModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="novaObraModalLabel">Criar Nova Obra</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="novaObraForm">
+                        <div class="mb-3">
+                            <label for="tituloObra" class="form-label">Título da Obra</label>
+                            <input type="text" class="form-control" id="tituloObra" placeholder="Ex: Reforma do Banheiro" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descricaoObra" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="descricaoObra" rows="3" placeholder="Descreva os detalhes da sua obra..." required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="enderecoObra" class="form-label">Endereço</label>
+                            <input type="text" class="form-control" id="enderecoObra" placeholder="Ex: Rua das Flores, 123, Apto 301" required>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="dataInicioPrevista" class="form-label">Data de Início Prevista</label>
+                                <input type="date" class="form-control" id="dataInicioPrevista" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dataFimPrevista" class="form-label">Data de Término Prevista</label>
+                                <input type="date" class="form-control" id="dataFimPrevista" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="criarObra()">Criar Obra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function criarObra() {
+            // Simulação de criação de obra
+            alert('Obra criada com sucesso!');
+            window.location.href = 'obra-detalhes.html?id=3';
+        }
+    </script>
+</body>
+</html>

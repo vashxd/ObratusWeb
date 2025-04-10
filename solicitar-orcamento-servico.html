@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Orçamento de Serviço - Obratus</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: var(--primary);
+        }
+        .sidebar {
+            background-color: var(--primary);
+            color: white;
+            min-height: calc(100vh - 56px);
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.8rem 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.2rem;
+        }
+        .sidebar .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: var(--secondary);
+        }
+        .sidebar .nav-link i {
+            margin-right: 0.5rem;
+        }
+        .btn-primary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        .btn-primary:hover {
+            background-color: #e67e22;
+            border-color: #e67e22;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 0.25rem rgba(243, 156, 18, 0.25);
+        }
+        .preview-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-area:hover {
+            border-color: var(--secondary);
+        }
+        .upload-icon {
+            font-size: 2rem;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="dashboard.html">OBRATUS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link active" href="obras.html">Minhas Obras</a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="solicitacoes.html">Solicitações</a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="mensagens.html">Mensagens</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" id="notificacoesDropdown" role="button" data-bs-toggle="dropdown">
+                            <div class="position-relative d-inline-block">
+                                <i class="fas fa-bell"></i>
+                                <span class="notification-badge">3</span>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificacoesDropdown">
+                            <li><h6 class="dropdown-header">Notificações</h6></li>
+                            <li><a class="dropdown-item" href="#">Novo orçamento recebido</a></li>
+                            <li><a class="dropdown-item" href="#">Material entregue</a></li>
+                            <li><a class="dropdown-item" href="#">Nova mensagem</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-center" href="#">Ver todas</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <div class="user-avatar">JD</div>
+                            <span class="d-none d-lg-inline">João da Silva</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Meu Perfil</a></li>
+                            <li><a class="dropdown-item" href="configuracoes.html"><i class="fas fa-cog me-2"></i>Configurações</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="index.html"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 d-none d-lg-block sidebar p-3">
+                <h5 class="mb-3 ps-2">Menu</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="obras.html">
+                            <i class="fas fa-home"></i> Minhas Obras
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="solicitacoes.html">
+                            <i class="fas fa-clipboard-list"></i> Solicitações
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mensagens.html">
+                            <i class="fas fa-comments"></i> Mensagens
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profissionais.html">
+                            <i class="fas fa-hard-hat"></i> Profissionais
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="fornecedores.html">
+                            <i class="fas fa-store"></i> Fornecedores
+                        </a>
+                    </li>
+                </ul>
+                <hr>
+                <h5 class="mb-3 ps-2">Suporte</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="ajuda.html">
+                            <i class="fas fa-question-circle"></i> Ajuda
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contato.html">
+                            <i class="fas fa-envelope"></i> Contato
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10 p-4">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="obras.html">Minhas Obras</a></li>
+                        <li class="breadcrumb-item"><a href="obra-detalhes.html">Reforma do Banheiro</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Solicitar Orçamento de Serviço</li>
+                    </ol>
+                </nav>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">Solicitar Orçamento de Serviço</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="solicitacaoServicoForm">
+                            <div class="mb-3">
+                                <label for="obraSelecionada" class="form-label">Obra</label>
+                                <select class="form-select" id="obraSelecionada" disabled>
+                                    <option selected>Reforma do Banheiro</option>
+                                </select>
+                                <div class="form-text">Esta solicitação será vinculada à obra selecionada.</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="tituloSolicitacao" class="form-label">Título da Solicitação</label>
+                                <input type="text" class="form-control" id="tituloSolicitacao" placeholder="Ex: Instalação de revestimentos em banheiro" value="Instalação de revestimentos em banheiro" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="descricaoSolicitacao" class="form-label">Descrição Detalhada</label>
+                                <textarea class="form-control" id="descricaoSolicitacao" rows="5" placeholder="Descreva detalhadamente o serviço que você precisa..." required>Preciso de um profissional para remover o revestimento antigo e instalar novo piso e azulejos no banheiro de aproximadamente 6m². O serviço inclui remoção do revestimento atual, preparação da superfície, assentamento de porcelanato no piso e azulejos nas paredes, e rejuntamento.</textarea>
+                                <div class="form-text">Seja específico sobre o que precisa ser feito, dimensões, acabamentos e outros detalhes relevantes.</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Tipo de Serviço</label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="tipoServico" id="tipoAssentamento" checked>
+                                            <label class="form-check-label" for="tipoAssentamento">Assentamento de Revestimentos</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="tipoServico" id="tipoHidraulica">
+                                            <label class="form-check-label" for="tipoHidraulica">Instalação Hidráulica</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="tipoServico" id="tipoEletrica">
+                                            <label class="form-check-label" for="tipoEletrica">Instalação Elétrica</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="tipoServico" id="tipoPintura">
+                                            <label class="form-check-label" for="tipoPintura">Pintura</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="tipoServico" id="tipoAlvenaria">
+                                            <label class="form-check-label" for="tipoAlvenaria">Alvenaria</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="tipoServico" id="tipoOutro">
+                                            <label class="form-check-label" for="tipoOutro">Outro</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="dataInicioPrevista" class="form-label">Data de Início Desejada</label>
+                                    <input type="date" class="form-control" id="dataInicioPrevista" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="prazoExecucao" class="form-label">Prazo de Execução Estimado (dias)</label>
+                                    <input type="number" class="form-control" id="prazoExecucao" min="1" value="10" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="materialIncluido" class="form-label">O profissional deve fornecer materiais?</label>
+                                <select class="form-select" id="materialIncluido" required>
+                                    <option value="nao" selected>Não, apenas mão de obra</option>
+                                    <option value="sim">Sim, mão de obra e materiais</option>
+                                    <option value="parcial">Parcialmente (especificar na descrição)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Fotos e Plantas (opcional)</label>
+                                <div class="upload-area mb-3" id="uploadArea">
+                                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                    <p class="mb-0">Arraste e solte imagens aqui ou clique para selecionar</p>
+                                    <input type="file" id="fileUpload" class="d-none" multiple accept="image/*">
+                                </div>
+                                <div class="d-flex flex-wrap" id="previewContainer">
+                                    <img src="https://via.placeholder.com/100x100?text=Banheiro+1" class="preview-image" alt="Preview">
+                                    <img src="https://via.placeholder.com/100x100?text=Banheiro+2" class="preview-image" alt="Preview">
+                                    <img src="https://via.placeholder.com/100x100?text=Planta" class="preview-image" alt="Preview">
+                                </div>
+                                <div class="form-text">Adicione fotos do ambiente e plantas para ajudar os profissionais a entenderem melhor o serviço.</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="observacoes" class="form-label">Observações Adicionais (opcional)</label>
+                                <textarea class="form-control" id="observacoes" rows="3" placeholder="Informações adicionais que possam ser relevantes...">Preciso que o profissional tenha experiência com instalação de porcelanato retificado. O banheiro tem uma janela e um nicho que precisam ser contornados com o revestimento.</textarea>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between">
+                                <a href="obra-detalhes.html" class="btn btn-outline-secondary">Cancelar</a>
+                                <button type="button" class="btn btn-primary" onclick="enviarSolicitacao()">Enviar Solicitação</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Inicializar a data com 7 dias a partir de hoje
+        window.onload = function() {
+            const today = new Date();
+            today.setDate(today.getDate() + 7);
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('dataInicioPrevista').value = formattedDate;
+            
+            // Configurar o upload de arquivos
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileUpload');
+            
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = 'var(--secondary)';
+                uploadArea.style.backgroundColor = 'rgba(243, 156, 18, 0.05)';
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '#ddd';
+                uploadArea.style.backgroundColor = '';
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#ddd';
+                uploadArea.style.backgroundColor = '';
+                
+                if (e.dataTransfer.files.length) {
+                    handleFiles(e.dataTransfer.files);
+                }
+            });
+            
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length) {
+                    handleFiles(fileInput.files);
+                }
+            });
+        };
+        
+        function handleFiles(files) {
+            // Simulação de upload - na implementação real, você enviaria os arquivos para o servidor
+            const previewContainer = document.getElementById('previewContainer');
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'preview-image';
+                        img.alt = 'Preview';
+                        previewContainer.appendChild(img);
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+        
+        function enviarSolicitacao() {
+            // Simulação de envio da solicitação
+            alert('Solicitação enviada com sucesso!');
+            window.location.href = 'obra-detalhes.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Obratus</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: var(--primary);
+        }
+        .btn-primary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        .btn-primary:hover {
+            background-color: #e67e22;
+            border-color: #e67e22;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .form-control:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 0.25rem rgba(243, 156, 18, 0.25);
+        }
+        .user-type-card {
+            cursor: pointer;
+            transition: all 0.3s;
+            height: 100%;
+        }
+        .user-type-card:hover {
+            transform: translateY(-5px);
+        }
+        .user-type-card.selected {
+            border: 2px solid var(--secondary);
+            background-color: rgba(243, 156, 18, 0.1);
+        }
+        .user-type-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">OBRATUS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#como-funciona">Como Funciona</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#vantagens">Vantagens</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#contato">Contato</a></li>
+                </ul>
+                <div class="d-flex">
+                    <a href="login.html" class="btn btn-outline-light">Entrar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cadastro Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h2 class="text-center mb-4">Crie sua conta</h2>
+                            
+                            <!-- Etapa 1: Tipo de Usuário -->
+                            <div id="step1" class="cadastro-step">
+                                <h4 class="mb-4 text-center">Selecione o tipo de conta</h4>
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-4">
+                                        <div class="card user-type-card text-center p-3" onclick="selectUserType('proprietario')" id="card-proprietario">
+                                            <div class="card-body">
+                                                <i class="fas fa-user user-type-icon"></i>
+                                                <h5>Proprietário</h5>
+                                                <p class="small text-muted">Para quem precisa gerenciar obras e reformas</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card user-type-card text-center p-3" onclick="selectUserType('profissional')" id="card-profissional">
+                                            <div class="card-body">
+                                                <i class="fas fa-hammer user-type-icon"></i>
+                                                <h5>Profissional</h5>
+                                                <p class="small text-muted">Para quem oferece serviços de construção</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card user-type-card text-center p-3" onclick="selectUserType('vendedor')" id="card-vendedor">
+                                            <div class="card-body">
+                                                <i class="fas fa-store user-type-icon"></i>
+                                                <h5>Vendedor</h5>
+                                                <p class="small text-muted">Para quem vende materiais de construção</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-grid">
+                                    <button class="btn btn-primary" onclick="nextStep(1, 2)" id="btn-step1" disabled>Continuar</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Etapa 2: Dados Pessoais -->
+                            <div id="step2" class="cadastro-step" style="display: none;">
+                                <h4 class="mb-4 text-center">Dados Pessoais</h4>
+                                <form>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="nome" class="form-label">Nome Completo</label>
+                                            <input type="text" class="form-control" id="nome" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="cpf" class="form-label">CPF</label>
+                                            <input type="text" class="form-control" id="cpf" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="telefone" class="form-label">Telefone</label>
+                                            <input type="tel" class="form-control" id="telefone" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="senha" class="form-label">Senha</label>
+                                            <input type="password" class="form-control" id="senha" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="confirmar-senha" class="form-label">Confirmar Senha</label>
+                                            <input type="password" class="form-control" id="confirmar-senha" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Campos específicos para cada tipo de usuário -->
+                                    <div id="campos-proprietario" class="campos-especificos" style="display: none;">
+                                        <!-- Campos específicos para proprietário -->
+                                        <div class="mb-3">
+                                            <label for="endereco" class="form-label">Endereço Completo</label>
+                                            <input type="text" class="form-control" id="endereco">
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="campos-profissional" class="campos-especificos" style="display: none;">
+                                        <!-- Campos específicos para profissional -->
+                                        <div class="mb-3">
+                                            <label for="especialidade" class="form-label">Especialidade</label>
+                                            <select class="form-select" id="especialidade">
+                                                <option value="">Selecione...</option>
+                                                <option value="pedreiro">Pedreiro</option>
+                                                <option value="eletricista">Eletricista</option>
+                                                <option value="encanador">Encanador</option>
+                                                <option value="pintor">Pintor</option>
+                                                <option value="arquiteto">Arquiteto</option>
+                                                <option value="engenheiro">Engenheiro Civil</option>
+                                                <option value="outro">Outro</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="descricao-servicos" class="form-label">Descrição dos Serviços</label>
+                                            <textarea class="form-control" id="descricao-servicos" rows="3"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="regiao-atuacao" class="form-label">Região de Atuação</label>
+                                            <input type="text" class="form-control" id="regiao-atuacao">
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="campos-vendedor" class="campos-especificos" style="display: none;">
+                                        <!-- Campos específicos para vendedor -->
+                                        <div class="mb-3">
+                                            <label for="nome-loja" class="form-label">Nome da Loja</label>
+                                            <input type="text" class="form-control" id="nome-loja">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="cnpj" class="form-label">CNPJ</label>
+                                            <input type="text" class="form-control" id="cnpj">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="endereco-loja" class="form-label">Endereço da Loja</label>
+                                            <input type="text" class="form-control" id="endereco-loja">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="tipo-produtos" class="form-label">Tipos de Produtos</label>
+                                            <select class="form-select" id="tipo-produtos" multiple>
+                                                <option value="materiais-basicos">Materiais Básicos</option>
+                                                <option value="revestimentos">Revestimentos</option>
+                                                <option value="hidraulica">Hidráulica</option>
+                                                <option value="eletrica">Elétrica</option>
+                                                <option value="ferramentas">Ferramentas</option>
+                                                <option value="acabamentos">Acabamentos</option>
+                                            </select>
+                                            <div class="form-text">Segure Ctrl para selecionar múltiplas opções</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between mt-4">
+                                        <button type="button" class="btn btn-outline-secondary" onclick="prevStep(2, 1)">Voltar</button>
+                                        <button type="button" class="btn btn-primary" onclick="nextStep(2, 3)">Continuar</button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Etapa 3: Termos e Condições -->
+                            <div id="step3" class="cadastro-step" style="display: none;">
+                                <h4 class="mb-4 text-center">Termos e Condições</h4>
+                                <div class="mb-4 p-3 border rounded" style="height: 200px; overflow-y: auto;">
+                                    <h5>Termos de Uso da Plataforma Obratus</h5>
+                                    <p>Ao utilizar a plataforma Obratus, você concorda com os seguintes termos e condições:</p>
+                                    <p>1. <strong>Cadastro e Conta</strong>: As informações fornecidas durante o cadastro devem ser verdadeiras e precisas. Você é responsável por manter a confidencialidade de sua senha.</p>
+                                    <p>2. <strong>Uso da Plataforma</strong>: A plataforma Obratus é um meio de conexão entre proprietários, profissionais e vendedores. Não nos responsabilizamos pela qualidade dos serviços ou produtos oferecidos.</p>
+                                    <p>3. <strong>Comunicação</strong>: Ao se cadastrar, você concorda em receber comunicações relacionadas à plataforma, incluindo notificações sobre solicitações, orçamentos e mensagens.</p>
+                                    <p>4. <strong>Avaliações</strong>: As avaliações devem ser honestas e baseadas em experiências reais. Reservamo-nos o direito de remover avaliações que violem nossas políticas.</p>
+                                    <p>5. <strong>Pagamentos</strong>: A Obratus não processa pagamentos entre usuários. Qualquer transação financeira é de responsabilidade exclusiva das partes envolvidas.</p>
+                                </div>
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" id="aceite-termos">
+                                    <label class="form-check-label" for="aceite-termos">
+                                        Li e concordo com os Termos de Uso e Política de Privacidade
+                                    </label>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="prevStep(3, 2)">Voltar</button>
+                                    <button type="button" class="btn btn-primary" id="btn-finalizar" onclick="finalizarCadastro()" disabled>Finalizar Cadastro</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Etapa 4: Confirmação -->
+                            <div id="step4" class="cadastro-step" style="display: none;">
+                                <div class="text-center py-4">
+                                    <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
+                                    <h3 class="mt-4">Cadastro Realizado com Sucesso!</h3>
+                                    <p class="mb-4">Enviamos um email de confirmação para o endereço fornecido. Por favor, verifique sua caixa de entrada e confirme seu email para ativar sua conta.</p>
+                                    <a href="login.html" class="btn btn-primary">Ir para Login</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <p class="mb-0">© 2023 Obratus. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedUserType = null;
+        
+        function selectUserType(type) {
+            selectedUserType = type;
+            
+            // Remover seleção anterior
+            document.querySelectorAll('.user-type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Adicionar seleção ao card clicado
+            document.getElementById('card-' + type).classList.add('selected');
+            
+            // Habilitar botão de continuar
+            document.getElementById('btn-step1').disabled = false;
+        }
+        
+        function nextStep(currentStep, nextStep) {
+            // Esconder etapa atual
+            document.getElementById('step' + currentStep).style.display = 'none';
+            
+            // Mostrar próxima etapa
+            document.getElementById('step' + nextStep).style.display = 'block';
+            
+            // Se estiver indo para a etapa 2, mostrar campos específicos
+            if (nextStep === 2 && selectedUserType) {
+                // Esconder todos os campos específicos
+                document.querySelectorAll('.campos-especificos').forEach(campo => {
+                    campo.style.display = 'none';
+                });
+                
+                // Mostrar campos do tipo selecionado
+                document.getElementById('campos-' + selectedUserType).style.display = 'block';
+            }
+        }
+        
+        function prevStep(currentStep, prevStep) {
+            // Esconder etapa atual
+            document.getElementById('step' + currentStep).style.display = 'none';
+            
+            // Mostrar etapa anterior
+            document.getElementById('step' + prevStep).style.display = 'block';
+        }
+        
+        // Habilitar botão de finalizar quando os termos forem aceitos
+        document.getElementById('aceite-termos').addEventListener('change', function() {
+            document.getElementById('btn-finalizar').disabled = !this.checked;
+        });
+        
+        function finalizarCadastro() {
+            // Esconder etapa atual
+            document.getElementById('step3').style.display = 'none';
+            
+            // Mostrar confirmação
+            document.getElementById('step4').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

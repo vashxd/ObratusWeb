@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orçamentos Recebidos - Obratus</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: var(--primary);
+        }
+        .sidebar {
+            background-color: var(--primary);
+            color: white;
+            min-height: calc(100vh - 56px);
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.8rem 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.2rem;
+        }
+        .sidebar .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: var(--secondary);
+        }
+        .sidebar .nav-link i {
+            margin-right: 0.5rem;
+        }
+        .btn-primary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        .btn-primary:hover {
+            background-color: #e67e22;
+            border-color: #e67e22;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .nav-tabs .nav-link {
+            color: var(--dark);
+        }
+        .nav-tabs .nav-link.active {
+            color: var(--secondary);
+            font-weight: bold;
+            border-bottom: 2px solid var(--secondary);
+        }
+        .rating {
+            color: var(--secondary);
+        }
+        .rating-empty {
+            color: #ddd;
+        }
+        .orcamento-card {
+            height: 100%;
+            transition: all 0.3s;
+        }
+        .orcamento-card.selected {
+            border: 2px solid var(--secondary);
+            background-color: rgba(243, 156, 18, 0.05);
+        }
+        .orcamento-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+        .orcamento-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        .orcamento-badge {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 1;
+        }
+        .badge-melhor {
+            background-color: #27ae60;
+            color: white;
+        }
+        .fornecedor-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .fornecedor-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="dashboard.html">OBRATUS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="obras.html">Minhas Obras</a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link active" href="solicitacoes.html">Solicitações</a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="mensagens.html">Mensagens</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" id="notificacoesDropdown" role="button" data-bs-toggle="dropdown">
+                            <div class="position-relative d-inline-block">
+                                <i class="fas fa-bell"></i>
+                                <span class="notification-badge">3</span>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificacoesDropdown">
+                            <li><h6 class="dropdown-header">Notificações</h6></li>
+                            <li><a class="dropdown-item" href="#">Novo orçamento recebido</a></li>
+                            <li><a class="dropdown-item" href="#">Material entregue</a></li>
+                            <li><a class="dropdown-item" href="#">Nova mensagem</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-center" href="#">Ver todas</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <div class="user-avatar">JD</div>
+                            <span class="d-none d-lg-inline">João da Silva</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Meu Perfil</a></li>
+                            <li><a class="dropdown-item" href="configuracoes.html"><i class="fas fa-cog me-2"></i>Configurações</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="index.html"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 d-none d-lg-block sidebar p-3">
+                <h5 class="mb-3 ps-2">Menu</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="obras.html">
+                            <i class="fas fa-home"></i> Minhas Obras
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="solicitacoes.html">
+                            <i class="fas fa-clipboard-list"></i> Solicitações
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mensagens.html">
+                            <i class="fas fa-comments"></i> Mensagens
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profissionais.html">
+                            <i class="fas fa-hard-hat"></i> Profissionais
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="fornecedores.html">
+                            <i class="fas fa-store"></i> Fornecedores
+                        </a>
+                    </li>
+                </ul>
+                <hr>
+                <h5 class="mb-3 ps-2">Suporte</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="ajuda.html">
+                            <i class="fas fa-question-circle"></i> Ajuda
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contato.html">
+                            <i class="fas fa-envelope"></i> Contato
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10 p-4">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="obras.html">Minhas Obras</a></li>
+                        <li class="breadcrumb-item"><a href="obra-detalhes.html">Reforma do Banheiro</a></li>
+                        <li class="breadcrumb-item"><a href="solicitacoes.html">Solicitações</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Orçamentos Recebidos</li>
+                    </ol>
+                </nav>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h4 class="mb-1">Materiais para revestimento de banheiro</h4>
+                                <p class="text-muted mb-0">Solicitação criada em 15/05/2025 | <span class="badge bg-success">3 orçamentos recebidos</span></p>
+                            </div>
+                            <a href="obra-detalhes.html" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i>Voltar para a Obra</a>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h5>Descrição da Solicitação</h5>
+                                <p>Preciso de 20m² de porcelanato para piso, 30m² de revestimento cerâmico para parede, argamassa, rejunte e outros materiais necessários para a reforma do banheiro.</p>
+                                <div class="d-flex mb-3">
+                                    <div class="me-4">
+                                        <small class="text-muted d-block">Prazo de Entrega Desejado</small>
+                                        <strong>20/05/2025</strong>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block">Categorias</small>
+                                        <span class="badge bg-light text-dark me-1">Pisos e Revestimentos</span>
+                                        <span class="badge bg-light text-dark">Argamassa e Rejunte</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Obra Relacionada</h6>
+                                        <p class="mb-1"><strong>Reforma do Banheiro</strong></p>
+                                        <p class="mb-1"><i class="fas fa-map-marker-alt me-1"></i> Rua das Flores, 123, Apto 301</p>
+                                        <p class="mb-0"><span class="badge bg-warning text-dark">Em Andamento</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Abas de Conteúdo -->
+                <ul class="nav nav-tabs mb-4" id="orcamentosTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="materiais-tab" data-bs-toggle="tab" data-bs-target="#materiais" type="button" role="tab" aria-controls="materiais" aria-selected="true">Orçamentos de Materiais (3)</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="orcamentosTabContent">
+                    <!-- Aba Orçamentos de Materiais -->
+                    <div class="tab-pane fade show active" id="materiais" role="tabpanel" aria-labelledby="materiais-tab">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5>Comparativo de Orçamentos</h5>
+                            <div>
+                                <select class="form-select form-select-sm" id="ordenarPor">
+                                    <option value="preco">Ordenar por: Menor Preço</option>
+                                    <option value="prazo">Ordenar por: Menor Prazo</option>
+                                    <option value="avaliacao">Ordenar por: Melhor Avaliação</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Orçamento 1 -->
+                            <div class="col-md-4 mb-4">
+                                <div class="card orcamento-card position-relative selected" id="orcamento1">
+                                    <span class="orcamento-badge badge-melhor">Melhor Oferta</span>
+                                    <div class="card-body">
+                                        <div class="fornecedor-info">
+                                            <div class="fornecedor-avatar">MC</div>
+                                            <div>
+                                                <h5 class="mb-0">Materiais Constrular</h5>
+                                                <div class="rating">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                    <small class="text-muted ms-1">(4.5)</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="orcamento-header mb-3">
+                                            <div>
+                                                <small class="text-muted">Valor Total</small>
+                                                <div class="orcamento-price">R$ 3.500,00</div>
+                                            </div>
+                                            <div class="text-end">
+                                                <small class="text-muted">Prazo de Entrega</small>
+                                                <div><strong>5 dias úteis</strong></div>
+                                            </div>
+                                        </div>
+                                        <h6>Materiais Incluídos</h6>
+                                        <ul class="mb-3">
+                                            <li>Porcelanato 60x60 Acetinado (20m²)</li>
+                                            <li>Revestimento Cerâmico 30x60 (30m²)</li>
+                                            <li>Argamassa AC-II (8 sacos)</li>
+                                            <li>Rejunte Flexível (4kg)</li>
+                                            <li>Espaçadores e outros acessórios</li>
+                                        </ul>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-primary" onclick="aceitarOrcamento(1)">Aceitar Proposta</button>
+                                            <button class="btn btn-outline-secondary" onclick="enviarMensagem(1)">Enviar Mensagem</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Orçamento 2 -->
+                            <div class="col-md-4 mb-4">
+                                <div class="card orcamento-card position-relative" id="orcamento2">
+                                    <div class="card-body">
+                                        <div class="fornecedor-info">
+                                            <div class="fornecedor-avatar">CM</div>
+                                            <div>
+                                                <h5 class="mb-0">Casa dos Materiais</h5>
+                                                <div class="rating">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="far fa-star rating-empty"></i>
+                                                    <small class="text-muted ms-1">(4.0)</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="orcamento-header mb-3">
+                                            <div>
+                                                <small class="text-muted">Valor Total</small>
+                                                <div class="orcamento-price">R$ 3.750,00</div>
+                                            </div>
+                                            <div class="text-end">
+                                                <small class="text-muted">Prazo de Entrega</small>
+                                                <div><strong>4 dias úteis</strong></div>
+                                            </div>
+                                        </div>
+                                        <h6>Materiais Incluídos</h6>
+                                        <ul class="mb-3">
+                                            <li>Porcelanato 60x60 Polido (20m²)</li>
+                                            <li>Revestimento Cerâmico 32x57 (30m²)</li>
+                                            <li>Argamassa AC-II (8 sacos)</li>
+                                            <li>Rejunte Epóxi (4kg)</li>
+                                            <li>Espaçadores e outros acessórios</li>
+                                        </ul>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-primary" onclick="aceitarOrcamento(2)">Aceitar Proposta</button>
+                                            <button class="btn btn-outline-secondary" onclick="enviarMensagem(2)">Enviar Mensagem</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Orçamento 3 -->
+                            <div class="col-md-4 mb-4">
+                                <div class="card orcamento-card position-relative" id="orcamento3">
+                                    <div class="card-body">
+                                        <div class="fornecedor-info">
+                                            <div class="fornecedor-avatar">CC</div>
+                                            <div>
+                                                <h5 class="mb-0">Cerâmica Central</h5>
+                                                <div class="rating">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                    <i class="far fa-star rating-empty"></i>
+                                                    <small class="text-muted ms-1">(3.5)</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="orcamento-header mb-3">
+                                            <div>
+                                                <small class="text-muted">Valor Total</small>
+                                                <div class="orcamento-price">R$ 3.200,00</div>
+                                            </div>
+                                            <div class="text-end">
+                                                <small class="text-muted">Prazo de Entrega</small>
+                                                <div><strong>7 dias úteis</strong></div>
+                                            </div>
+                                        </div>
+                                        <h6>Materiais Incluídos</h6>
+                                        <ul class="mb-3">
+                                            <li>Porcelanato 60x60 Acetinado (20m²)</li>
+                                            <li>Revestimento Cerâmico 30x60 (30m²)</li>
+                                            <li>Argamassa AC-I (10 sacos)</li>
+                                            <li>Rejunte Comum (5kg)</li>
+                                            <li>Espaçadores</li>
+                                        </ul>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-primary" onclick="aceitarOrcamento(3)">Aceitar Proposta</button>
+                                            <button class="btn btn-outline-secondary" onclick="enviarMensagem(3)">Enviar Mensagem</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Comparativo de Preços por Item</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Materiais Constrular</th>
+                                                <th>Casa dos Materiais</th>
+                                                <th>Cerâmica Central</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Porcelanato (20m²)</td>
+                                                <td>R$ 1.800,00</td>
+                                                <td>R$ 2.000,00</td>
+                                                <td>R$ 1.600,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Revestimento (30m²)</td>
+                                                <td>R$ 1.200,00</td>
+                                                <td>R$ 1.250,00</td>
+                                                <td>R$ 1.150,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Argamassa</td>
+                                                <td>R$ 320,00</td>
+                                                <td>R$ 320,00</td>
+                                                <td>R$ 300,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Rejunte</td>
+                                                <td>R$ 120,00</td>
+                                                <td>R$ 150,00</td>
+                                                <td>R$ 100,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Acessórios</td>
+                                                <td>R$ 60,00</td>
+                                                <td>R$ 30,00</td>
+                                                <td>R$ 50,00</td>
+                                            </tr>
+                                            <tr class="table-light fw-bold">
+                                                <td>Total</td>
+                                                <td>R$ 3.500,00</td>
+                                                <td>R$ 3.750,00</td>
+                                                <td>R$ 3.200,00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div class="modal fade" id="confirmacaoModal" tabindex="-1" aria-labelledby="confirmacaoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmacaoModalLabel">Confirmar Aceitação</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Você está prestes a aceitar o orçamento da <strong id="fornecedorNome">Materiais Constrular</strong> no valor de <strong id="orcamentoValor">R$ 3.500,00</strong>.</p>
+                    <p>Ao aceitar este orçamento:</p>
+                    <ul>
+                        <li>Um canal de comunicação será criado entre você e o fornecedor</li>
+                        <li>O material será vinculado à sua obra</li>
+                        <li>Você poderá acompanhar o status da entrega</li>
+                    </ul>
+                    <p>Deseja confirmar esta aceitação?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmarAceitacao()">Confirmar Aceitação</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let orcamentoSelecionado = 1;
+        
+        function aceitarOrcamento(id) {
+            orcamentoSelecionado = id;
+            
+            // Atualizar informações no modal
+            let fornecedorNome = '';
+            let orcamentoValor = '';
+            
+            if (id === 1) {
+                fornecedorNome = 'Materiais Constrular';
+                orcamentoValor = 'R$ 3.500,00';
+            } else if (id === 2) {
+                fornecedorNome = 'Casa dos Materiais';
+                orcamentoValor = 'R$ 3.750,00';
+            } else if (id === 3) {
+                fornecedorNome = 'Cerâmica Central';
+                orcamentoValor = 'R$ 3.200,00';
+            }
+            
+            document.getElementById('fornecedorNome').textContent = fornecedorNome;
+            document.getElementById('orcamentoValor').textContent = orcamentoValor;
+            
+            // Mostrar modal de confirmação
+            const modal = new bootstrap.Modal(document.getElementById('confirmacaoModal'));
+            modal.show();
+        }
+        
+        function enviarMensagem(id) {
+            // Simulação de envio de mensagem
+            alert('Funcionalidade de mensagem em desenvolvimento.');
+        }
+        
+        function confirmarAceitacao() {
+            // Simulação de aceitação do orçamento
+            alert('Orçamento aceito com sucesso! Um canal de comunicação foi criado.');
+            window.location.href = 'obra-detalhes.html';
+        }
+        
+        // Seleção de orçamento
+        document.querySelectorAll('.orcamento-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Ignorar cliques nos botões
+                if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+                    return;
+                }
+                
+                // Remover seleção anterior
+                document.querySelectorAll('.orcamento-card').forEach(c => {
+                    c.classList.remove('selected');
+                });
+                
+                // Adicionar seleção ao card clicado
+                this.classList.add('selected');
+                
+                // Atualizar orçamento selecionado
+                orcamentoSelecionado = parseInt(this.id.replace('orcamento', ''));
+            });
+        });
+    </script>
+</body>
+</html>
