@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #f39c12;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
+            --primary: #123524;
+            --secondary: #3E7B27;
+            --tertiary: #85A947;
+            --quaternary: #EFE3C2;
+            --light: #EFE3C2;
+            --dark: #123524;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -25,8 +27,8 @@
             border-color: var(--secondary);
         }
         .btn-primary:hover {
-            background-color: #e67e22;
-            border-color: #e67e22;
+            background-color: var(--tertiary);
+            border-color: var(--tertiary);
         }
         .card {
             border-radius: 10px;
@@ -34,7 +36,7 @@
         }
         .form-control:focus {
             border-color: var(--secondary);
-            box-shadow: 0 0 0 0.25rem rgba(243, 156, 18, 0.25);
+            box-shadow: 0 0 0 0.25rem rgba(62, 123, 39, 0.25);
         }
         .user-type-card {
             cursor: pointer;
@@ -46,11 +48,11 @@
         }
         .user-type-card.selected {
             border: 2px solid var(--secondary);
-            background-color: rgba(243, 156, 18, 0.1);
+            background-color: rgba(62, 123, 39, 0.1);
         }
         .user-type-icon {
             font-size: 2.5rem;
-            color: var(--secondary);
+            color: var(--tertiary);
             margin-bottom: 1rem;
         }
     </style>
