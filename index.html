@@ -31,9 +31,22 @@
             display: flex;
             justify-content: center;
         }
+        .navbar .container-fluid {
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+        }
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                order: 3;
+                width: 100%;
+            }
+            .navbar-toggler {
+                order: 2;
+            }
+        }
         .navbar .navbar-brand {
             position: absolute;
-            left: 50%;
+            left: 17%;
             transform: translateX(-50%);
         }
         .btn-primary {
@@ -70,15 +83,71 @@
             padding: 30px 0;
         }
     </style>
+    <style>
+        .navbar {
+            position: relative;
+        }
+        .navbar-collapse {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: var(--primary);
+            padding: 0; /* Remove padding */
+            margin: 0; /* Remove margin */
+        }
+        @media (min-width: 992px) {
+            .navbar-collapse {
+                position: static;
+                background-color: transparent;
+            }
+        }
+        .navbar-brand {
+            position: static;
+            transform: none;
+            margin-right: auto;
+        }
+        @media (max-width: 991.98px) {
+            .navbar-brand {
+                margin-left: 2rem;
+                margin-right: 2rem;
+                flex-grow: 1;
+                text-align: center;
+            }
+            .navbar-collapse {
+                order: 2;
+                width: 100%;
+                margin-top: 0;
+            }
+            .d-flex.align-items-center {
+                order: 1;
+                margin-left: auto;
+                flex-shrink: 0;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <!-- Left-aligned toggle button -->
+            <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="index.html">OBRATUS</a>
+            
+            <!-- Adjusted app name position -->
+            <a class="navbar-brand ms-auto" href="index.html">OBRATUS</a>
+
+            <!-- Right-aligned buttons and collapsible menu -->
+            <div class="d-flex align-items-center ms-auto">
+                <div class="d-lg-none">
+                    <a href="login.html" class="btn btn-outline-light btn-sm me-2">Entrar</a>
+                    <a href="cadastro.html" class="btn btn-primary btn-sm me-2">Cadastre-se</a>
+                </div>
+            </div>
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link active" href="#">Início</a></li>
@@ -86,7 +155,7 @@
                     <li class="nav-item"><a class="nav-link" href="#vantagens">Vantagens</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
                 </ul>
-                <div class="d-flex">
+                <div class="d-none d-lg-flex">
                     <a href="login.html" class="btn btn-outline-light me-2">Entrar</a>
                     <a href="cadastro.html" class="btn btn-primary">Cadastre-se</a>
                 </div>
