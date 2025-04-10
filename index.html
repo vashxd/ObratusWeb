@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #f39c12;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
+            --primary: #123524;
+            --secondary: #3E7B27;
+            --tertiary: #85A947;
+            --quaternary: #EFE3C2;
+            --light: #EFE3C2;
+            --dark: #123524;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -25,11 +27,11 @@
             border-color: var(--secondary);
         }
         .btn-primary:hover {
-            background-color: #e67e22;
-            border-color: #e67e22;
+            background-color: var(--tertiary);
+            border-color: var(--tertiary);
         }
         .hero {
-            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background: linear-gradient(rgba(18, 53, 36, 0.8), rgba(18, 53, 36, 0.8)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             color: white;
@@ -37,7 +39,7 @@
         }
         .feature-icon {
             font-size: 3rem;
-            color: var(--secondary);
+            color: var(--tertiary);
             margin-bottom: 1rem;
         }
         .card {
@@ -136,14 +138,14 @@
     </section>
 
     <!-- Vantagens -->
-    <section id="vantagens" class="py-5 bg-light">
+    <section id="vantagens" class="py-5" style="background-color: var(--quaternary);">
         <div class="container">
             <h2 class="text-center mb-5">Vantagens da Plataforma</h2>
             <div class="row">
                 <div class="col-lg-4 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-comments text-primary me-2"></i> Comunicação Centralizada</h5>
+                            <h5 class="card-title"><i class="fas fa-comments me-2" style="color: var(--secondary);"></i> Comunicação Centralizada</h5>
                             <p class="card-text">Canais de comunicação específicos para cada obra, orçamento de material e serviço.</p>
                         </div>
                     </div>
@@ -151,7 +153,7 @@
                 <div class="col-lg-4 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-search text-primary me-2"></i> Encontre os Melhores Profissionais</h5>
+                            <h5 class="card-title"><i class="fas fa-search me-2" style="color: var(--secondary);"></i> Encontre os Melhores Profissionais</h5>
                             <p class="card-text">Sistema de avaliações para ajudar você a escolher os melhores profissionais e fornecedores.</p>
                         </div>
                     </div>
@@ -159,7 +161,7 @@
                 <div class="col-lg-4 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-file-invoice-dollar text-primary me-2"></i> Orçamentos Transparentes</h5>
+                            <h5 class="card-title"><i class="fas fa-file-invoice-dollar me-2" style="color: var(--secondary);"></i> Orçamentos Transparentes</h5>
                             <p class="card-text">Compare orçamentos detalhados e escolha a melhor opção para seu projeto.</p>
                         </div>
                     </div>
@@ -167,7 +169,7 @@
                 <div class="col-lg-4 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-calendar-alt text-primary me-2"></i> Gestão de Prazos</h5>
+                            <h5 class="card-title"><i class="fas fa-calendar-alt me-2" style="color: var(--secondary);"></i> Gestão de Prazos</h5>
                             <p class="card-text">Acompanhe os prazos previstos e reais de cada etapa da sua obra.</p>
                         </div>
                     </div>
@@ -175,7 +177,7 @@
                 <div class="col-lg-4 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-truck text-primary me-2"></i> Controle de Entregas</h5>
+                            <h5 class="card-title"><i class="fas fa-truck me-2" style="color: var(--secondary);"></i> Controle de Entregas</h5>
                             <p class="card-text">Acompanhe o status de entrega dos materiais necessários para sua obra.</p>
                         </div>
                     </div>
@@ -183,7 +185,7 @@
                 <div class="col-lg-4 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title"><i class="fas fa-history text-primary me-2"></i> Histórico Completo</h5>
+                            <h5 class="card-title"><i class="fas fa-history me-2" style="color: var(--secondary);"></i> Histórico Completo</h5>
                             <p class="card-text">Mantenha um registro completo de todas as suas obras para consultas futuras.</p>
                         </div>
                     </div>
@@ -232,7 +234,7 @@
     </section>
 
     <!-- Contato -->
-    <section id="contato" class="py-5 bg-light">
+    <section id="contato" class="py-5" style="background-color: var(--quaternary);">
         <div class="container">
             <h2 class="text-center mb-5">Entre em Contato</h2>
             <div class="row justify-content-center">
@@ -266,7 +268,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="text-center">
+    <footer class="text-center" style="background-color: var(--primary); color: var(--quaternary);">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4 mb-md-0">
@@ -276,10 +278,10 @@
                 <div class="col-md-4 mb-4 mb-md-0">
                     <h5>Links Rápidos</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Início</a></li>
-                        <li><a href="#como-funciona" class="text-white">Como Funciona</a></li>
-                        <li><a href="#vantagens" class="text-white">Vantagens</a></li>
-                        <li><a href="#contato" class="text-white">Contato</a></li>
+                        <li><a href="#" style="color: var(--quaternary);">Início</a></li>
+                        <li><a href="#como-funciona" style="color: var(--quaternary);">Como Funciona</a></li>
+                        <li><a href="#vantagens" style="color: var(--quaternary);">Vantagens</a></li>
+                        <li><a href="#contato" style="color: var(--quaternary);">Contato</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
