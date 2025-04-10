@@ -31,10 +31,41 @@
             display: flex;
             justify-content: center;
         }
+        .navbar .container-fluid {
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+        }
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                order: 3;
+                width: 100%;
+            }
+            .navbar-toggler {
+                order: 2;
+            }
+        }
         .navbar .navbar-brand {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            position: static;
+            transform: none;
+            margin-right: auto;
+        }
+        @media (max-width: 991.98px) {
+            .navbar-brand {
+                margin-left: 2rem;
+                margin-right: 2rem;
+                flex-grow: 1;
+                text-align: center;
+            }
+            .navbar-collapse {
+                order: 2;
+                width: 100%;
+                margin-top: 0;
+            }
+            .d-flex.align-items-center {
+                order: 1;
+                margin-left: auto;
+                flex-shrink: 0;
+            }
         }
         .sidebar {
             background-color: var(--primary);

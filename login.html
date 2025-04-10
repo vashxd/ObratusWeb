@@ -37,10 +37,41 @@
             display: flex;
             justify-content: center;
         }
+        .navbar .container-fluid {
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+        }
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                order: 3;
+                width: 100%;
+            }
+            .navbar-toggler {
+                order: 2;
+            }
+        }
         .navbar .navbar-brand {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            position: static;
+            transform: none;
+            margin-right: auto;
+        }
+        @media (max-width: 991.98px) {
+            .navbar-brand {
+                margin-left: 2rem;
+                margin-right: 2rem;
+                flex-grow: 1;
+                text-align: center;
+            }
+            .navbar-collapse {
+                order: 2;
+                width: 100%;
+                margin-top: 0;
+            }
+            .d-flex.align-items-center {
+                order: 1;
+                margin-left: auto;
+                flex-shrink: 0;
+            }
         }
         .btn-primary {
             background-color: var(--secondary);
@@ -249,7 +280,12 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand animate__animated animate__fadeIn" href="index.html">OBRATUS</a>
+            <a class="navbar-brand ms-auto" href="index.html">OBRATUS</a>
+            <div class="d-flex align-items-center ms-auto">
+                <div class="d-lg-none">
+                    <a href="cadastro.html" class="btn btn-primary btn-sm me-2">Cadastre-se</a>
+                </div>
+            </div>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
@@ -257,8 +293,8 @@
                     <li class="nav-item"><a class="nav-link" href="index.html#vantagens">Vantagens</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.html#contato">Contato</a></li>
                 </ul>
-                <div class="d-flex">
-                    <a href="cadastro.html" class="btn btn-primary animate__animated animate__fadeIn">Cadastre-se</a>
+                <div class="d-none d-lg-flex">
+                    <a href="cadastro.html" class="btn btn-primary">Cadastre-se</a>
                 </div>
             </div>
         </div>
