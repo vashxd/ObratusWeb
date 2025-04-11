@@ -48,6 +48,30 @@
             background-color: var(--secondary);
             border-color: var(--secondary);
         }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .navbar .container-fluid {
+            display: flex;
+            justify-content: center;
+        }
+        .navbar .navbar-brand {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        @media (max-width: 991.98px) {
+            .navbar-brand {
+                position: static;
+                transform: none;
+                margin-left: 0.5rem;
+                margin-right: auto;
+                flex-grow: 0;
+                text-align: left;
+            }
+        }
         .btn-primary:hover {
             background-color: #e67e22;
             border-color: #e67e22;

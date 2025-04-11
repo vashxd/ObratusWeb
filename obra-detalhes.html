@@ -29,12 +29,22 @@
         }
         .navbar .container-fluid {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
         }
         .navbar .navbar-brand {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
+            margin-right: auto;
+        }
+        @media (max-width: 991.98px) {
+            .navbar-brand {
+                position: static;
+                transform: none;
+                margin-left: 0.5rem;
+                margin-right: auto;
+                flex-grow: 0;
+                text-align: left;
+            }
         }
         .sidebar {
             background-color: var(--primary);

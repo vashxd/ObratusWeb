@@ -51,16 +51,18 @@
             }
         }
         .navbar .navbar-brand {
-            position: static;
-            transform: none;
-            margin-right: auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
         @media (max-width: 991.98px) {
             .navbar-brand {
-                margin-left: 2rem;
-                margin-right: 2rem;
-                flex-grow: 1;
-                text-align: center;
+                position: static;
+                transform: none;
+                margin-left: 0.5rem;
+                margin-right: auto;
+                flex-grow: 0;
+                text-align: left;
             }
             .navbar-collapse {
                 order: 2;
