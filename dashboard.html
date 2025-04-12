@@ -37,11 +37,16 @@
         }
         @media (max-width: 991.98px) {
             .navbar-collapse {
-                order: 3;
+                position: absolute;
+                top: 100%;
+                left: 0;
                 width: 100%;
+                background-color: var(--primary);
+                padding: 0.5rem;
+                z-index: 1000;
             }
             .navbar-toggler {
-                order: 2;
+                order: 1;
             }
         }
         .navbar .navbar-brand {
@@ -59,12 +64,12 @@
                 text-align: left;
             }
             .navbar-collapse {
-                order: 2;
+                order: 3;
                 width: 100%;
                 margin-top: 0;
             }
             .d-flex.align-items-center {
-                order: 1;
+                order: 2;
                 margin-left: auto;
                 flex-shrink: 0;
             }
@@ -170,6 +175,36 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="index.html">OBRATUS</a>
+            
+            <div class="d-flex align-items-center order-lg-2">
+                <div class="position-relative d-inline-block me-3">
+                    <a class="text-light" href="#" id="notificacoesDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificacoesDropdown">
+                        <li><h6 class="dropdown-header">Notificações</h6></li>
+                        <li><a class="dropdown-item" href="#">Novo orçamento recebido</a></li>
+                        <li><a class="dropdown-item" href="#">Material entregue</a></li>
+                        <li><a class="dropdown-item" href="#">Nova mensagem</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-center" href="#">Ver todas</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                        <div class="user-avatar">JD</div>
+                        <span class="d-none d-lg-inline text-white">João da Silva</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Meu Perfil</a></li>
+                        <li><a class="dropdown-item" href="configuracoes.html"><i class="fas fa-cog me-2"></i>Configurações</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="index.html"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item d-lg-none">
@@ -184,35 +219,17 @@
                     <li class="nav-item d-lg-none">
                         <a class="nav-link" href="mensagens.html">Mensagens</a>
                     </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" id="notificacoesDropdown" role="button" data-bs-toggle="dropdown">
-                            <div class="position-relative d-inline-block">
-                                <i class="fas fa-bell"></i>
-                                <span class="notification-badge">3</span>
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificacoesDropdown">
-                            <li><h6 class="dropdown-header">Notificações</h6></li>
-                            <li><a class="dropdown-item" href="#">Novo orçamento recebido</a></li>
-                            <li><a class="dropdown-item" href="#">Material entregue</a></li>
-                            <li><a class="dropdown-item" href="#">Nova mensagem</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-center" href="#">Ver todas</a></li>
-                        </ul>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="profissionais.html">Profissionais</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                            <div class="user-avatar">JD</div>
-                            <span class="d-none d-lg-inline">João da Silva</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Meu Perfil</a></li>
-                            <li><a class="dropdown-item" href="configuracoes.html"><i class="fas fa-cog me-2"></i>Configurações</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="index.html"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
-                        </ul>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="fornecedores.html">Fornecedores</a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="ajuda.html">Ajuda</a>
+                    </li>
+                    <li class="nav-item d-lg-none">
+                        <a class="nav-link" href="contato.html">Contato</a>
                     </li>
                 </ul>
             </div>
